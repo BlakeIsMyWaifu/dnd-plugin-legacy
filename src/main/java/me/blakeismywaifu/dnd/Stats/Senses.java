@@ -30,7 +30,15 @@ public class Senses {
 		lore.add("Perception: " + ChatColor.WHITE + data.perception);
 		lore.add("Investigation: " + ChatColor.WHITE + data.investigation);
 		lore.add("Insight: " + ChatColor.WHITE + data.insight);
-		lore.add((data.addition.size() == 0 ? ChatColor.ITALIC : ChatColor.WHITE) + "additions");
+		if (data.addition.size() == 0) {
+			lore.add("Addional Senses: " + ChatColor.ITALIC + "None");
+		} else {
+			lore.add("Addional Senses: ");
+			for (Object additionObject : data.addition) {
+				JSONObject addition = (JSONObject) additionObject;
+				lore.add(ChatColor.WHITE + "● " + addition.get("sense") + " " + addition.get("value") + " ft.");
+			}
+		}
 		return Item.create(Item.main, "Senses:", lore, null);
 	}
 }
