@@ -1,0 +1,56 @@
+name: MinecraftDnD
+version: ${project.version}
+main: me.blakeismywaifu.dnd.Main
+authors: [BlakeIsMyWaifu]
+description: Minecraft DnD
+api-version: 1.16
+permissions:
+  dnd.player:
+    description: DnD Player
+    default: true
+commands:
+  update:
+    description: Updates a players inventory
+    usage: /update <id> [player]
+    permission: dnd.update
+    permission-message: You don't have the permission <permission>
+  bind:
+    description: Binds a character id to a player
+    usage: /bind <id> <player>
+    permission: dnd.bind
+    permission-message: You don't have the permission <permission>
+  npc:
+    description: Creates an NPC
+    usage: /npc
+    permission: dnd.npc
+    permission-message: You don't have the permission <permission>
+  defence:
+    description: Displays a players defences
+    usage: /defence [player]
+    permission: dnd.info.defence
+    permission-message: You don't have the permission <permission>
+  skin:
+    description: Changes a players skin
+    usage: /skin <skinname> [player]
+    permission: dnd.skin
+    permission-message: You don't have the permission <permission>
+  map:
+    description: Creates a map from an image
+    usage: /map <url>
+    permission: dnd.map
+    permission-message: You don't have the permission <permission>
+  proficiencies:
+    description: Displays a players proficiencies
+    usage: /proficiencies [player]
+    permission: dnd.info.proficiencies
+    permission-message: You don't have the permission <permission>
+    aliases:
+      - armour
+      - weapons
+      - tools
+      - languages
+  roll:
+    description: Rolls a dice
+    usage: /roll [size|type]
+    permission: dnd.roll
+    permission-message: You don't have the permission <permission>
