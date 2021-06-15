@@ -36,6 +36,9 @@ public class Stat {
 	public static String statShort(String stat) {
 		return shortName.get(statOrder.indexOf(stat));
 	}
+	public static String statLong(String stat) {
+		return statOrder.get(shortName.indexOf(stat));
+	}
 	public static int statCounter(String stat, int start) {
 		int index = statOrder.indexOf(stat);
 		return index + start;

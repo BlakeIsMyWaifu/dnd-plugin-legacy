@@ -42,7 +42,7 @@ public class Skill {
 
 	public static List<String> list = Arrays.asList(
 		"acrobatics", "animalhandling", "arcana", "athleitcs", "deception",
-		"history", "insight", "intimidation", "medicine", "nature", "perception",
-		"persuasion", "religion", "slightofhand", "stealth", "survival"
+		"history", "insight", "intimidation", "investigation", "medicine", "nature", "perception",
+		"performance", "persuasion", "religion", "slightofhand", "stealth", "survival"
 	);
 }

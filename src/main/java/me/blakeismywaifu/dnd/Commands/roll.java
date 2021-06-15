@@ -53,22 +53,28 @@ public class roll implements CommandExecutor {
 		List<Dice> dice = rollDice(args[0], player.getUniqueId());
 		Dice result = dice.get(0);
 
-		Main.log.info(String.valueOf(dice.size()));
-
 		TextComponent main = new TextComponent("\n" + player.getDisplayName() + ChatColor.BLUE + " rolled " + StringUtils.capitalize(result.detail) + ": " + StringUtils.capitalize(result.type) + " = " + ChatColor.AQUA + result.out);
-		String resultBreakdown = ChatColor.GREEN + breakdown(result.breakdown);
-		main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(dice.size() == 1 ? resultBreakdown : resultBreakdown + "\n" + ChatColor.RED + breakdown(dice.get(1).breakdown))));
+		String resultBreakdown = ChatColor.GREEN + String.join("\n", breakdown(result.breakdown));
+		main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(dice.size() == 1 ? resultBreakdown : resultBreakdown + "\n" + ChatColor.RED + String.join("\n", breakdown(dice.get(1).breakdown)))));
 
+		Main.log.info(ChatColor.AQUA + player.getDisplayName() + " rolled " + args[0] + ", " + String.join(", ", breakdown(result.breakdown)));
+		if (dice.size() == 2) Main.log.info(ChatColor.AQUA + String.join(", ", breakdown(result.breakdown)));
 		Bukkit.broadcast(main);
 
 		return true;
 	}
 
-	private String breakdown(Map<String, Integer> breakdown) {
-		return "Size: " + breakdown.get("size") +
-				"\nModifier: " + breakdown.get("modifier") +
-				"\nRollled: " + breakdown.get("roll") +
-				"\n" + breakdown.get("roll") + " + " + breakdown.get("modifier") + " = " + (breakdown.get("roll") + breakdown.get("modifier"));
+	private List<String> breakdown(Map<String, Integer> breakdown) {
+		int size = breakdown.get("size");
+		int modifier = breakdown.get("modifier");
+		int roll = breakdown.get("roll");
+		int total = roll + modifier;
+		return Arrays.asList(
+			"Size: " + size,
+			"Modifier: " + modifier,
+			"Rollled: " + roll,
+			roll + (modifier >= 0 ? " + " + modifier : " - " + modifier * -1) + " = " + total
+		);
 	}
 
 	private List<Dice> rollDice(String name, UUID uuid) {
@@ -82,11 +88,14 @@ public class roll implements CommandExecutor {
 
 		else if (dice.detail.equals("initiative")) modifier = Math.toIntExact(new Misc(data).initiative);
 
-		else if (Stat.statOrder.contains(dice.detail)) modifier = Math.toIntExact(new Stat(data).modifier);
+		else if (Stat.shortName.contains(dice.detail)) {
+			JSONObject stats = (JSONObject) data.get("stats");
+			modifier = Math.toIntExact(new Stat((JSONObject) stats.get(Stat.statLong(dice.detail))).modifier);
+		}
 
 		else if (Stat.statOrder.stream().map(s -> s + "save").collect(Collectors.toList()).contains(dice.detail)) {
 			JSONObject list = (JSONObject) data.get("savingThrow");
-			modifier = Math.toIntExact(new SavingThrowStat((JSONObject) list.get(dice.detail)).modifier);
+			modifier = Math.toIntExact(new SavingThrowStat((JSONObject) list.get(Stat.statLong(dice.detail))).modifier);
 		}
 
 		else if (Skill.list.contains(dice.detail)) {
@@ -111,10 +120,6 @@ public class roll implements CommandExecutor {
 		dice.breakdown.put("size", size);
 		dice.breakdown.put("modifier", modifier);
 		dice.breakdown.put("roll", roll);
-
-		Main.log.info("size " + size);
-		Main.log.info("modifier " + modifier);
-
 		return dice;
 	}
 }
