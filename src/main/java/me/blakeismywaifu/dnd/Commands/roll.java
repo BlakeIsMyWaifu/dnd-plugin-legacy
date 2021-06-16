@@ -54,11 +54,11 @@ public class roll implements CommandExecutor {
 		Dice result = dice.get(0);
 
 		TextComponent main = new TextComponent("\n" + player.getDisplayName() + ChatColor.BLUE + " rolled " + StringUtils.capitalize(result.detail) + ": " + StringUtils.capitalize(result.type) + " = " + ChatColor.AQUA + result.out);
-		String resultBreakdown = ChatColor.GREEN + String.join("\n", breakdown(result.breakdown));
-		main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(dice.size() == 1 ? resultBreakdown : resultBreakdown + "\n" + ChatColor.RED + String.join("\n", breakdown(dice.get(1).breakdown)))));
+		String resultBreakdown = diceColour(result.breakdown, 1) + String.join("\n", breakdown(result.breakdown));
+		main.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(dice.size() == 1 ? resultBreakdown : resultBreakdown + "\n" + diceColour(dice.get(1).breakdown, 2) + String.join("\n", breakdown(dice.get(1).breakdown)))));
 
 		Main.log.info(ChatColor.AQUA + player.getDisplayName() + " rolled " + args[0] + ", " + String.join(", ", breakdown(result.breakdown)));
-		if (dice.size() == 2) Main.log.info(ChatColor.AQUA + String.join(", ", breakdown(result.breakdown)));
+		if (dice.size() == 2) Main.log.info(ChatColor.AQUA + String.join(", ", breakdown(dice.get(1).breakdown)));
 		Bukkit.broadcast(main);
 
 		return true;
@@ -113,13 +113,20 @@ public class roll implements CommandExecutor {
 	}
 
 	private Dice rollDice(Dice dice, int size, int modifier) {
-		int roll;
-		roll = (int) (Math.random() * size);
+		int roll = new Random().nextInt(size + 1) + 1;
 		dice.out = roll + modifier;
 		dice.breakdown = new HashMap<>();
 		dice.breakdown.put("size", size);
 		dice.breakdown.put("modifier", modifier);
 		dice.breakdown.put("roll", roll);
 		return dice;
+	}
+
+	private ChatColor diceColour(Map<String, Integer> breakdown, int diceNumber) {
+		int size = breakdown.get("size");
+		int roll = breakdown.get("roll");
+		if (size == roll) return ChatColor.GREEN;
+		if (roll == 1) return ChatColor.RED;
+		return diceNumber == 1 ? ChatColor.WHITE : ChatColor.DARK_GRAY;
 	}
 }
