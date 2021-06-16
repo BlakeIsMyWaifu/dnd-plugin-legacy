@@ -8,6 +8,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.json.simple.JSONObject;
 
 import java.util.Map;
 import java.util.UUID;
@@ -19,9 +20,7 @@ public class FullUpdate extends BukkitRunnable {
 		Map<UUID, String> players = PlayerCache.getBinds();
 		for (Map.Entry<UUID, String> entry : players.entrySet()) {
 			Player player = Bukkit.getPlayer(entry.getKey());
-			if (player == null || !player.isOnline() || player.getGameMode() != GameMode.ADVENTURE || !player.hasPermission("dnd.player")) {
-				return;
-			}
+			if (player == null || !player.isOnline() || player.getGameMode() != GameMode.ADVENTURE || !player.hasPermission("dnd.player")) return;
 
 			API api = new API(entry.getValue());
 			if (!api.status) {
@@ -29,7 +28,8 @@ public class FullUpdate extends BukkitRunnable {
 				return;
 			}
 
-			UpdatePlayer.update(api.json, player);
+			JSONObject oldCache = PlayerCache.getCache().get(player.getUniqueId());
+			if (!api.json.equals(oldCache)) UpdatePlayer.update(api.json, player);
 		}
 	}
 }

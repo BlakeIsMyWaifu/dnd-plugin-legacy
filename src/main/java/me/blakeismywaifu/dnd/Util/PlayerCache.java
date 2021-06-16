@@ -35,7 +35,7 @@ public class PlayerCache implements ConfigurationSerializable {
 	public static Map<UUID, String> getBinds() {
 		Map<UUID, String> out = new HashMap<>();
 		Main.cache.forEach((key, value) -> {
-			if (value == null) return;
+			if (value.bind == null) return;
 			out.put(key, value.bind);
 		});
 		return out;
@@ -49,7 +49,7 @@ public class PlayerCache implements ConfigurationSerializable {
 	public static Map<UUID, JSONObject> getCache() {
 		Map<UUID, JSONObject> out = new HashMap<>();
 		Main.cache.forEach((key, value) -> {
-			if (value == null) return;
+			if (value.cache == null) return;
 			out.put(key, value.cache);
 		});
 		return out;
@@ -63,7 +63,7 @@ public class PlayerCache implements ConfigurationSerializable {
 	public static Map<UUID, Property> getSkin() {
 		Map<UUID, Property> out = new HashMap<>();
 		Main.cache.forEach((key, value) -> {
-			if (value == null) return;
+			if (value.skin == null) return;
 			out.put(key, value.skin);
 		});
 		return out;
