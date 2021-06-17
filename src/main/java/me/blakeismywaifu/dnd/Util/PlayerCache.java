@@ -16,16 +16,18 @@ public class PlayerCache implements ConfigurationSerializable {
 	public String bind;
 	public JSONObject cache;
 	public Property skin;
+	public Property defaultSkin;
 
 	public PlayerCache(UUID uuid) {
 		this.uuid = uuid;
 	}
 
-	public PlayerCache(UUID uuid, String bind, JSONObject cache, Property skin) {
+	public PlayerCache(UUID uuid, String bind, JSONObject cache, Property skin, Property defaultSkin) {
 		this.uuid = uuid;
 		this.bind = bind;
 		this.cache = cache;
 		this.skin = skin;
+		this.defaultSkin = defaultSkin;
 	}
 
 	private static void createCache(UUID uuid) {
@@ -74,6 +76,20 @@ public class PlayerCache implements ConfigurationSerializable {
 		Main.cache.get(uuid).skin = skin;
 	}
 
+	public static Map<UUID, Property> getDefaultSkin() {
+		Map<UUID, Property> out = new HashMap<>();
+		Main.cache.forEach((key, value) -> {
+			if (value.defaultSkin == null) return;
+			out.put(key, value.defaultSkin);
+		});
+		return out;
+	}
+
+	public static void putDefaultSkin(UUID uuid, Property defaultSkin) {
+		createCache(uuid);
+		Main.cache.get(uuid).defaultSkin = defaultSkin;
+	}
+
 	@NotNull
 	@Override
 	public Map<String, Object> serialize() {
@@ -90,6 +106,7 @@ public class PlayerCache implements ConfigurationSerializable {
 		String bind = (String) deserialized.get("bind");
 //		JSONObject cache = API.JSONparse((String) deserialized.get("cache"));
 		Property skin = (Property) deserialized.get("skin");
-		return new PlayerCache(uuid, bind, null, skin);
+		Property defaultSkin = (Property) deserialized.get("defaultSkin");
+		return new PlayerCache(uuid, bind, null, skin, defaultSkin);
 	}
 }

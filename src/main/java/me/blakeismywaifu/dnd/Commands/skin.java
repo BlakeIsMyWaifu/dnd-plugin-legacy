@@ -11,6 +11,9 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Arrays;
+import java.util.Map;
+
 public class skin implements CommandExecutor {
 
 	@Override
@@ -21,11 +24,13 @@ public class skin implements CommandExecutor {
 			return false;
 		}
 
-		Property skin = PlayerSkin.skins.get(args[0]);
+		Map<String, Property> skins = PlayerSkin.skins;
 
-		if (skin == null) {
-			sender.sendMessage(ChatColor.RED + "\nThat is not a valid skin name");
-			return false;
+		if (args[0].equals("list")) {
+			String[] skinNames = skins.keySet().toArray(new String[0]);
+			Arrays.sort(skinNames);
+			sender.sendMessage(ChatColor.GREEN + "\nSkins: " + String.join(", ", skinNames));
+			return true;
 		}
 
 		Player player = null;
@@ -37,6 +42,24 @@ public class skin implements CommandExecutor {
 		}
 		if (player == null) {
 			sender.sendMessage(ChatColor.RED + "\nUnknown player");
+			return false;
+		}
+
+		Property skin;
+
+		if (args[0].equals("restore")) {
+			Property defaultSkin = PlayerCache.getDefaultSkin().get(player.getUniqueId());
+			if (defaultSkin == null) {
+				sender.sendMessage(ChatColor.RED + "\nThat player is still using their default skin");
+				return false;
+			}
+			skin = defaultSkin;
+		} else {
+			skin = skins.get(args[0]);
+		}
+
+		if (skin == null) {
+			sender.sendMessage(ChatColor.RED + "\nThat is not a valid skin name");
 			return false;
 		}
 
