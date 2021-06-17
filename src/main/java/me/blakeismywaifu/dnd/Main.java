@@ -39,14 +39,6 @@ public final class Main extends JavaPlugin {
 	public void onEnable() {
 		log.info(ChatColor.GREEN + "MinecraftDnD Version: " + this.getDescription().getVersion());
 
-//		if (getConfig().contains("cache")) try {
-//			List<PlayerCache> list = getConfig().getList("cache").stream().map(s -> PlayerCache.deserialize((Map<String, Object>) s)).collect(Collectors.toList());
-//			log.info(String.valueOf(list.size()));
-//			log.info(list.toString());
-//		} catch (Exception error) {
-//			error.printStackTrace();
-//		}
-
 		PluginManager pluginManager = getServer().getPluginManager();
 		pluginManager.registerEvents(new PlayerConnection(),this);
 		pluginManager.registerEvents(new InventoryEvents(), this);
@@ -75,14 +67,10 @@ public final class Main extends JavaPlugin {
 
 		new FullUpdate().runTaskTimer(this, 0, 400);
 		new QuickUpdate().runTaskTimer(this, 0, 30);
-//		new TabAnimation().runTaskTimer(this, 0, 40);
 	}
 
 	@Override
 	public void onDisable() {
 		log.info(ChatColor.GREEN + "MinecraftDnD Disabling");
-
-//		getConfig().set("cache", new ArrayList<>(cache.values()));
-//		saveConfig();
 	}
 }

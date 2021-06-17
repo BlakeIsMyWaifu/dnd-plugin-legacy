@@ -1,8 +1,7 @@
 package me.blakeismywaifu.dnd.Tasks;
 
 import me.blakeismywaifu.dnd.Util.TabManager;
-import net.minecraft.server.PacketPlayOutPlayerListHeaderFooter;
-import net.minecraft.server.v1_16_R3.Packet;
+import net.minecraft.server.v1_16_R3.PacketPlayOutPlayerListHeaderFooter;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
 import org.bukkit.entity.Player;
@@ -38,7 +37,7 @@ public class TabAnimation extends BukkitRunnable {
 			footer.set(packet, footers.get(countFooter));
 
 			for (Player player : Bukkit.getOnlinePlayers()) {
-				((CraftPlayer) player).getHandle().playerConnection.sendPacket((Packet<?>) packet);
+				((CraftPlayer) player).getHandle().playerConnection.sendPacket(packet);
 			}
 
 			countHeader++;
