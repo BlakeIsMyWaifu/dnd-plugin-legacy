@@ -1,6 +1,7 @@
 package me.blakeismywaifu.dnd.Events;
 
 import me.blakeismywaifu.dnd.Util.NPC;
+import me.blakeismywaifu.dnd.Util.PacketReader;
 import me.blakeismywaifu.dnd.Util.PlayerCache;
 import me.blakeismywaifu.dnd.Util.PlayerSkin;
 import org.bukkit.ChatColor;
@@ -16,20 +17,26 @@ public class PlayerConnection implements Listener {
 	@EventHandler
 	public void onJoin(final PlayerJoinEvent event) {
 		Player player = event.getPlayer();
-		event.setJoinMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " +  ChatColor.GOLD + player.getDisplayName() + " has joined the party");
+		event.setJoinMessage(ChatColor.GRAY + "[" + ChatColor.GREEN + "+" + ChatColor.GRAY + "] " + ChatColor.GOLD + player.getDisplayName() + " has joined the party");
 
 		player.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(20);
 		player.setHealth(20);
 		player.setAbsorptionAmount(0);
 
-		NPC.NPC.forEach(npc -> NPC.addNPCPacket(npc, player));
+		NPC.getNPCs().forEach(npc -> NPC.addNPCPacket(npc, player));
+		PacketReader reader = new PacketReader();
+		reader.inject(player);
 
-		if (PlayerCache.getSkin().containsKey(player.getUniqueId())) PlayerSkin.changeSkin(player, PlayerCache.getSkin().get(player.getUniqueId()));
+		if (PlayerCache.getSkin().containsKey(player.getUniqueId()))
+			PlayerSkin.changeSkin(player, PlayerCache.getSkin().get(player.getUniqueId()));
 	}
 
 	@EventHandler
 	void onPlayerQuit(PlayerQuitEvent event) {
 		Player player = event.getPlayer();
-		event.setQuitMessage(ChatColor.GRAY + "[" + ChatColor.RED + "-" + ChatColor.GRAY + "] " +  ChatColor.GOLD + player.getDisplayName() + " has left the party");
+		event.setQuitMessage(ChatColor.GRAY + "[" + ChatColor.RED + "-" + ChatColor.GRAY + "] " + ChatColor.GOLD + player.getDisplayName() + " has left the party");
+
+		PacketReader reader = new PacketReader();
+		reader.uninject(player);
 	}
 }

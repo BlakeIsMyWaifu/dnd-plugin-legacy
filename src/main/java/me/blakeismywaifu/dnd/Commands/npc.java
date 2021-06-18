@@ -28,8 +28,6 @@ public class npc implements CommandExecutor {
 			return false;
 		}
 
-		String colour = ChatColor.translateAlternateColorCodes('&', "ChatColor.AQUA");
-
 		Player player = (Player) sender;
 		NPC.createNPC(player, args[0], args[1]);
 

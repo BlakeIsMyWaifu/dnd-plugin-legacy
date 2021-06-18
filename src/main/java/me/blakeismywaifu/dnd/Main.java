@@ -9,18 +9,18 @@ import me.blakeismywaifu.dnd.Commands.proficiencies;
 import me.blakeismywaifu.dnd.Commands.roll;
 import me.blakeismywaifu.dnd.Commands.skin;
 import me.blakeismywaifu.dnd.Commands.update;
-import me.blakeismywaifu.dnd.Events.InventoryEvents;
-import me.blakeismywaifu.dnd.Events.PlayerConnection;
-import me.blakeismywaifu.dnd.Events.SuggestionBlocker;
-import me.blakeismywaifu.dnd.Events.TeleportEvent;
+import me.blakeismywaifu.dnd.Events.*;
 import me.blakeismywaifu.dnd.Tasks.FullUpdate;
 import me.blakeismywaifu.dnd.Tasks.QuickUpdate;
+import me.blakeismywaifu.dnd.Util.PacketReader;
 import me.blakeismywaifu.dnd.Util.PlayerCache;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.PluginCommand;
 import org.bukkit.command.TabCompleter;
 import org.bukkit.configuration.serialization.ConfigurationSerialization;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -45,6 +45,7 @@ public final class Main extends JavaPlugin {
 		pluginManager.registerEvents(new InventoryEvents(), this);
 		pluginManager.registerEvents(new SuggestionBlocker(), this);
 		pluginManager.registerEvents(new TeleportEvent(), this);
+		pluginManager.registerEvents(new ClickNPC(), this);
 
 		Map<String, CommandExecutor> commands = new HashMap<>();
 		commands.put("bind", new bind());
@@ -74,5 +75,10 @@ public final class Main extends JavaPlugin {
 	@Override
 	public void onDisable() {
 		log.info(ChatColor.GREEN + "MinecraftDnD Disabling");
+
+		for (Player player : Bukkit.getOnlinePlayers()) {
+			PacketReader reader = new PacketReader();
+			reader.uninject(player);
+		}
 	}
 }
