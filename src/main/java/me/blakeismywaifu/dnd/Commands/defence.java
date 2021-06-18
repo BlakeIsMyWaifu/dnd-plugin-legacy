@@ -2,8 +2,8 @@ package me.blakeismywaifu.dnd.Commands;
 
 import me.blakeismywaifu.dnd.Stats.Defences;
 import me.blakeismywaifu.dnd.Util.PlayerCache;
+import net.md_5.bungee.api.chat.ComponentBuilder;
 import net.md_5.bungee.api.chat.HoverEvent;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.chat.hover.content.Text;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -36,17 +36,18 @@ public class defence implements CommandExecutor {
 
 		LinkedHashMap<String, ArrayList<Defences>> defences = Defences.defencesMap(PlayerCache.getCache().get(player.getUniqueId()));
 
-		TextComponent main = new TextComponent();
-		defences.forEach((key, value) -> {
-			TextComponent sub = new TextComponent("\n" + Defences.colour(key) + key + ": ");
-			value.forEach(defence -> {
-				TextComponent text = new TextComponent("\n● " + defence.defence);
-				text.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(defence.source)));
-				sub.addExtra(text);
+		ComponentBuilder message = new ComponentBuilder();
+		defences.forEach((defenceType, defenceArray) -> {
+			message.append("\n" + Defences.colour(defenceType) + defenceType + ": ").reset();
+			if (defenceArray.size() == 0) message.append(ChatColor.ITALIC + "None");
+			defenceArray.forEach(defence -> {
+				ComponentBuilder defenceLine = new ComponentBuilder("\n● " + defence.defence);
+				defenceLine.event(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new Text(defence.source)));
+				message.append(defenceLine.create());
 			});
-			main.addExtra(sub);
 		});
-		sender.sendMessage(main);
+
+		sender.sendMessage(message.create());
 
 		return true;
 	}
