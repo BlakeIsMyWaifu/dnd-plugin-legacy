@@ -12,6 +12,7 @@ import me.blakeismywaifu.dnd.Commands.update;
 import me.blakeismywaifu.dnd.Events.InventoryEvents;
 import me.blakeismywaifu.dnd.Events.PlayerConnection;
 import me.blakeismywaifu.dnd.Events.SuggestionBlocker;
+import me.blakeismywaifu.dnd.Events.TeleportEvent;
 import me.blakeismywaifu.dnd.Tasks.FullUpdate;
 import me.blakeismywaifu.dnd.Tasks.QuickUpdate;
 import me.blakeismywaifu.dnd.Util.PlayerCache;
@@ -40,9 +41,10 @@ public final class Main extends JavaPlugin {
 		log.info(ChatColor.GREEN + "MinecraftDnD Version: " + this.getDescription().getVersion());
 
 		PluginManager pluginManager = getServer().getPluginManager();
-		pluginManager.registerEvents(new PlayerConnection(),this);
+		pluginManager.registerEvents(new PlayerConnection(), this);
 		pluginManager.registerEvents(new InventoryEvents(), this);
 		pluginManager.registerEvents(new SuggestionBlocker(), this);
+		pluginManager.registerEvents(new TeleportEvent(), this);
 
 		Map<String, CommandExecutor> commands = new HashMap<>();
 		commands.put("bind", new bind());

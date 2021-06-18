@@ -14,28 +14,26 @@ public class API {
 	public JSONObject json;
 	public Boolean status;
 
-	private static String sendRequest(String uri) {
-		String out = "";
+	public static String sendRequest(String uri) {
+		StringBuilder content = new StringBuilder();
 		try {
 			URL url = new URL(uri);
-			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
-			String str = in.readLine();
-			in.close();
-			if (str != null) {
-				out = str;
+			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+			String line;
+			while ((line = bufferedReader.readLine()) != null) {
+				content.append(line).append("\n");
 			}
+			bufferedReader.close();
 		} catch (IOException err) {
 			err.printStackTrace();
 		}
-		return out;
+		return content.toString();
 	}
 
 	public static JSONObject JSONparse(String str) {
 		JSONObject out = new JSONObject();
 		try {
-			JSONParser jsonParser = new JSONParser();
-			Object parsed = jsonParser.parse(str);
-			out = (JSONObject) parsed;
+			out = (JSONObject) new JSONParser().parse(str);
 		} catch (ParseException err) {
 			err.printStackTrace();
 		}

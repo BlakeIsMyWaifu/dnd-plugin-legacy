@@ -55,7 +55,7 @@ public class skin implements CommandExecutor {
 			}
 			skin = defaultSkin;
 		} else {
-			skin = skins.get(args[0]);
+			skin = PlayerSkin.getSkin(args[0]);
 		}
 
 		if (skin == null) {

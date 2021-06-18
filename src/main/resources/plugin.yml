@@ -16,12 +16,12 @@ commands:
     permission-message: You don't have the permission <permission>
   bind:
     description: Binds a character id to a player
-    usage: /bind <id|view> <player>
+    usage: /bind <id|view|delete> <player>
     permission: dnd.bind
     permission-message: You don't have the permission <permission>
   npc:
     description: Creates an NPC
-    usage: /npc
+    usage: /npc <name> <skin>
     permission: dnd.npc
     permission-message: You don't have the permission <permission>
   defence:
@@ -31,7 +31,7 @@ commands:
     permission-message: You don't have the permission <permission>
   skin:
     description: Changes a players skin
-    usage: /skin <skinname|list|restore> [player]
+    usage: /skin <skinname|username|list|restore> [player]
     permission: dnd.skin
     permission-message: You don't have the permission <permission>
   map:
