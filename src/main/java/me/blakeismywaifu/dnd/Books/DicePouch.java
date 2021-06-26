@@ -1,8 +1,5 @@
 package me.blakeismywaifu.dnd.Books;
 
-import me.blakeismywaifu.dnd.Main;
-import me.blakeismywaifu.dnd.Stats.Skill;
-import me.blakeismywaifu.dnd.Stats.Stat;
 import me.blakeismywaifu.dnd.Util.Item;
 import net.md_5.bungee.api.chat.BaseComponent;
 import net.md_5.bungee.api.chat.ClickEvent;
@@ -26,10 +23,12 @@ public class DicePouch {
 		meta.setAuthor(ChatColor.RED + "D&D");
 		meta.setGeneration(null);
 
-		meta.spigot().addPage(createPage("Custom", new String[]{"20", "12", "10", "100", "8", "6", "4" }));
-		meta.spigot().addPage(createPage("Stat Check", (String[]) Stat.statOrder.toArray()));
-		meta.spigot().addPage(createPage("Saving Throw", Stat.statOrder.stream().map(s -> "" + s + "save").toArray(String[]::new)));
-		String[] skills = (String[]) Skill.list.toArray();
+		meta.spigot().addPage(createPage("Custom", new String[]{"20", "12", "10", "100", "8", "6", "4"}));
+		meta.spigot().addPage(createPage("Stat Check", new String[]{"strength", "dexterity", "consitution", "intelligence", "wisdom", "charisma"}));
+		meta.spigot().addPage(createPage("Saving Throw", new String[]{"strengthsave", "dexteritysave", "consitutionsave", "intelligencesave", "wisdomsave", "charismasave"}));
+		String[] skills = new String[]{"acrobatics", "animalhandling", "arcana", "athleitcs", "deception",
+				"history", "insight", "intimidation", "investigation", "medicine", "nature", "perception",
+				"performance", "persuasion", "religion", "slightofhand", "stealth", "survival"};
 		meta.spigot().addPage(createPage("Skills (1)", Arrays.copyOfRange(skills, 0, skills.length / 2)));
 		meta.spigot().addPage(createPage("Skills (2)", Arrays.copyOfRange(skills, skills.length / 2, skills.length)));
 		meta.spigot().addPage(createPage("Initiative", new String[]{"initiative"}));
