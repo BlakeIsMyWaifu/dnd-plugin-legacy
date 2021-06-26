@@ -19,7 +19,7 @@ public class UpdatePlayer {
 	private static ItemStack blankSlot(int slot) {
 		List<String> lore = new ArrayList<>();
 		lore.add(ChatColor.DARK_GRAY + "Slot: " + slot);
-		return Item.create(Item.main, "", lore, null);
+		return Item.create(Item.main, "", lore, 23);
 	}
 
 	private static ItemStack placeholderBook(String name) {

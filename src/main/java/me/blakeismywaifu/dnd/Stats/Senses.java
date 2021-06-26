@@ -39,6 +39,6 @@ public class Senses {
 				lore.add(ChatColor.WHITE + "● " + addition.get("sense") + " " + addition.get("value") + " ft.");
 			}
 		}
-		return Item.create(Item.main, "Senses:", lore, null);
+		return Item.create(Item.main, "Senses:", lore, 18);
 	}
 }

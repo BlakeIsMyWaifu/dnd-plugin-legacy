@@ -52,7 +52,7 @@ public class Stat {
 			ArrayList<String> lore = new ArrayList<>();
 			lore.add("Total: " + data.total);
 			lore.add(StringUtils.capitalize(stat));
-			items.add(Item.create(Item.main, "Modifier: +" + data.modifier, lore, statCounter(stat, 1)));
+			items.add(Item.create(Item.main, "Modifier: +" + data.modifier, lore, statCounter(stat, 3)));
 		});
 		return items;
 	}

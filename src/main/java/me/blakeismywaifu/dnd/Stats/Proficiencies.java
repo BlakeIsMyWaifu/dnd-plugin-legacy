@@ -8,6 +8,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Proficiencies {
@@ -28,12 +29,17 @@ public class Proficiencies {
 		return out;
 	}
 
+	public static int typeCounter(String type, int start) {
+		int index = Arrays.asList(types).indexOf(type);
+		return index + start;
+	}
+
 	public static ItemStack item(JSONObject json, String type) {
 		List<Proficiencies> data = list(json, type);
 		List<String> lore = new ArrayList<>();
 		data.forEach(a -> lore.add("● " + a.item));
 		if (lore.size() == 0) lore.add(ChatColor.ITALIC + "None");
-		return Item.create(Item.main, StringUtils.capitalize(type) + ":", lore, null);
+		return Item.create(Item.main, StringUtils.capitalize(type) + ":", lore, typeCounter(type, 19));
 	}
 
 	public static String[] types = new String[]{"armour", "weapons", "tools", "languages"};

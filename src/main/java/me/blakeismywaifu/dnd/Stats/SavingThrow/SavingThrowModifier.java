@@ -31,6 +31,6 @@ public class SavingThrowModifier {
 			lore.add((data.type.equals("Disadvantage") ? ChatColor.RED : ChatColor.GREEN) + "● " + data.modifier);
 		}
 		if (lore.size() == 0) lore.add(ChatColor.ITALIC + "None");
-		return Item.create(Item.main, "Saving Throw Modifiers:", lore, null);
+		return Item.create(Item.main, "Saving Throw Modifiers:", lore, 11);
 	}
 }

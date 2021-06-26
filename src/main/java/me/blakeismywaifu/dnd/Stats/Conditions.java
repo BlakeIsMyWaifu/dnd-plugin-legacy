@@ -16,6 +16,6 @@ public class Conditions {
 		List<String> lore = new ArrayList<>();
 		for (Object condition : data) lore.add("● " + condition);
 		if (lore.size() == 0) lore.add(ChatColor.ITALIC + "None");
-		return Item.create(Item.main, "Conditions:", lore, null);
+		return Item.create(Item.main, "Conditions:", lore, 10);
 	}
 }

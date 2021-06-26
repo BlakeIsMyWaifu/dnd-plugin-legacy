@@ -31,7 +31,7 @@ public class Defences {
 			defences.forEach(defence -> lore.add(defence.defence));
 			if (defences.size() == 0) lore.add(ChatColor.ITALIC + "None");
 		});
-		return Item.create(Item.main, "Defences:", lore, null);
+		return Item.create(Item.main, "Defences:", lore, 9);
 	}
 
 	public static LinkedHashMap<String, ArrayList<Defences>> defencesMap(JSONObject json) {

@@ -27,7 +27,7 @@ public class SavingThrowStat {
 			SavingThrowStat data = new SavingThrowStat((JSONObject) savingThrows.get(stat));
 			ArrayList<String> lore = new ArrayList<>();
 			lore.add(StringUtils.capitalize(stat));
-			items.add(Item.create(Item.main, (data.proficiency ? ChatColor.GOLD : "") + "Saving Throw: +" + data.modifier, lore, Stat.statCounter(stat, 1)));
+			items.add(Item.create(Item.main, (data.proficiency ? ChatColor.GOLD : "") + "Saving Throw: +" + data.modifier, lore, Stat.statCounter(stat, 12)));
 		}
 		return items;
 	}

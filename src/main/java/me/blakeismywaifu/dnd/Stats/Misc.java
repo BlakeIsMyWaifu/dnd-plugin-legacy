@@ -32,6 +32,6 @@ public class Misc {
 		lore.add(ChatColor.WHITE + "+" + data.initiative + ChatColor.GRAY + " Initative");
 		lore.add(ChatColor.WHITE + data.speed.toString() + ChatColor.GRAY + "ft. Walking Speed");
 		lore.add((data.inspiration ? ChatColor.GREEN : ChatColor.RED) + "Inspiration");
-		return Item.create(Item.main, "Miscellaneous:", lore, null);
+		return Item.create(Item.main, "Miscellaneous:", lore, 1);
 	}
 }

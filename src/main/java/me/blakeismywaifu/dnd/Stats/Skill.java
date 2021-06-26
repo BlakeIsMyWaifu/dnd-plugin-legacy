@@ -37,7 +37,7 @@ public class Skill {
 			String adjustment = skill.vantage == null ? " " : (skill.vantage.equals("Advantage") ? ChatColor.GREEN + " A " : ChatColor.RED + " D ");
 			lore.add(colour + "● " + skill.skill + " +" + skill.modifier + adjustment + ChatColor.DARK_GRAY + statShort(skill.stat));
 		}
-		return Item.create(Item.main, "Skills: ", lore, null);
+		return Item.create(Item.main, "Skills: ", lore, 2);
 	}
 
 	public static List<String> list = Arrays.asList(
