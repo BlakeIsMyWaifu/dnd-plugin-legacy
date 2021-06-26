@@ -18,7 +18,8 @@ public class API {
 		StringBuilder content = new StringBuilder();
 		try {
 			URL url = new URL(uri);
-			BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(url.openStream()));
+			InputStreamReader streamReader = new InputStreamReader(url.openStream());
+			BufferedReader bufferedReader = new BufferedReader(streamReader);
 			String line;
 			while ((line = bufferedReader.readLine()) != null) {
 				content.append(line).append("\n");
