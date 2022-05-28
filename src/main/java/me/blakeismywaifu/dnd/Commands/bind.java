@@ -1,6 +1,7 @@
 package me.blakeismywaifu.dnd.Commands;
 
 import me.blakeismywaifu.dnd.Main;
+import me.blakeismywaifu.dnd.Tasks.FullUpdate;
 import me.blakeismywaifu.dnd.Util.API;
 import me.blakeismywaifu.dnd.Util.PlayerCache;
 import me.blakeismywaifu.dnd.Util.UpdatePlayer;
@@ -15,12 +16,19 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 
 import java.util.Map;
 import java.util.UUID;
 
 public class bind implements CommandExecutor {
+
+	Plugin plugin;
+
+	public bind(Plugin plugin) {
+		this.plugin = plugin;
+	}
 
 	@Override
 	public boolean onCommand(@NotNull CommandSender sender, @NotNull Command command, @NotNull String label, @NotNull String[] args) {
@@ -75,12 +83,7 @@ public class bind implements CommandExecutor {
 
 		PlayerCache.putBind(player.getUniqueId(), args[0]);
 
-		API api = new API(args[0]);
-		if (!api.status) {
-			Main.log.info("API Error in updater: " + player.getDisplayName() + " " + args[0]);
-			return false;
-		}
-		UpdatePlayer.update(api.json, player);
+		new FullUpdate().runTaskAsynchronously(plugin);
 
 		sender.sendMessage(ChatColor.GREEN + "\nSuccessfully bound " + player.getDisplayName() + " to " + args[0]);
 

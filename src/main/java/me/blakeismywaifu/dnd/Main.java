@@ -48,7 +48,7 @@ public final class Main extends JavaPlugin {
 		pluginManager.registerEvents(new ClickNPC(), this);
 
 		Map<String, CommandExecutor> commands = new HashMap<>();
-		commands.put("bind", new bind());
+		commands.put("bind", new bind(this));
 		commands.put("defence", new defence());
 		commands.put("map", new map());
 		commands.put("npc", new npc());
@@ -68,8 +68,8 @@ public final class Main extends JavaPlugin {
 			if (pluginCommand != null) pluginCommand.setTabCompleter(object);
 		});
 
-		new FullUpdate().runTaskTimer(this, 0, 400);
-		new QuickUpdate().runTaskTimer(this, 0, 30);
+		new FullUpdate().runTaskTimerAsynchronously(this, 0, 400);
+		new QuickUpdate().runTaskTimerAsynchronously(this, 0, 30);
 	}
 
 	@Override
