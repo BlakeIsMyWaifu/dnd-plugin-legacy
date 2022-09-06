@@ -1,5 +1,8 @@
 package dev.blakeismywaifu.dnd.Utils;
 
+import dev.blakeismywaifu.dnd.Main;
+import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -8,6 +11,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
+import java.util.Objects;
+import java.util.UUID;
 
 public class API {
 
@@ -41,9 +46,15 @@ public class API {
 		return out;
 	}
 
-	public API(String id) {
+	public API(UUID playerId, String id) {
 		String res = API.sendRequest("https://character-service.dndbeyond.com/character/v5/character/" + id);
 		this.json = API.JSONparse(res);
-		this.status = (Boolean) json.get("status");
+		this.status = (Boolean) json.get("success");
+
+		if (this.status) {
+			PlayerCache.putCache(playerId, this.json);
+		} else {
+			Main.log.info(ChatColor.RED + "API Failed for player " + Objects.requireNonNull(Bukkit.getPlayer(playerId)).getName() + " with character id " + id);
+		}
 	}
 }
