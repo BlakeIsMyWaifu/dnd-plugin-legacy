@@ -1,6 +1,6 @@
 package dev.blakeismywaifu.dnd.Commands;
 
-import dev.blakeismywaifu.dnd.Utils.API;
+import dev.blakeismywaifu.dnd.Tasks.FullUpdate;
 import dev.blakeismywaifu.dnd.Utils.PlayerCache;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -34,7 +34,7 @@ public class bind implements CommandExecutor {
 
 		PlayerCache.putBind(player.getUniqueId(), id);
 
-		API api = new API(player.getUniqueId(), id);
+		new FullUpdate().runTaskAsynchronously(plugin);
 
 		sender.sendMessage(ChatColor.GREEN + "\nSuccessfully bound: " + player.getName() + " to " + id);
 

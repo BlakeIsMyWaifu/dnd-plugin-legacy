@@ -17,6 +17,7 @@ import java.util.UUID;
 public class API {
 
 	public JSONObject json;
+	public JSONObject data;
 	public Boolean status;
 
 	public static String sendRequest(String uri) {
@@ -50,11 +51,15 @@ public class API {
 		String res = API.sendRequest("https://character-service.dndbeyond.com/character/v5/character/" + id);
 		this.json = API.JSONparse(res);
 		this.status = (Boolean) json.get("success");
+		this.data = (JSONObject) json.get("data");
+
+		String playerMessage = " for player" + Objects.requireNonNull(Bukkit.getPlayer(playerId)).getName() + " with character id " + id;
 
 		if (this.status) {
-			PlayerCache.putCache(playerId, this.json);
+			PlayerCache.putCache(playerId, this.data);
+			Main.log.info(ChatColor.GREEN + "API Success" + playerMessage);
 		} else {
-			Main.log.info(ChatColor.RED + "API Failed for player " + Objects.requireNonNull(Bukkit.getPlayer(playerId)).getName() + " with character id " + id);
+			Main.log.info(ChatColor.RED + "API Failed" + playerMessage);
 		}
 	}
 }
