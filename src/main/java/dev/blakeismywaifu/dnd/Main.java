@@ -1,5 +1,6 @@
 package dev.blakeismywaifu.dnd;
 
+import dev.blakeismywaifu.dnd.API.RuleData;
 import dev.blakeismywaifu.dnd.Commands.bind;
 import dev.blakeismywaifu.dnd.Utils.PlayerCache;
 import org.bukkit.ChatColor;
@@ -17,6 +18,7 @@ public final class Main extends JavaPlugin {
 	public static Logger log = Logger.getLogger("Minecraft");
 
 	public static Map<UUID, PlayerCache> cache = new HashMap<>();
+	public static RuleData ruleData = new RuleData();
 
 	@Override
 	public void onEnable() {

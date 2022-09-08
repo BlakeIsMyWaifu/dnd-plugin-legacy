@@ -2,10 +2,10 @@ package dev.blakeismywaifu.dnd.Utils;
 
 public class Utils {
 
-	public static boolean isInteger(String str) {
+	public static boolean isInteger(Object str) {
 		try {
-			Integer.parseInt(str);
-		} catch(NumberFormatException | NullPointerException err) {
+			Integer.parseInt((String) str);
+		} catch(NumberFormatException | NullPointerException | ClassCastException err) {
 			return false;
 		}
 		return true;
